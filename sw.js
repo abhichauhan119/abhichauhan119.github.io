@@ -157,15 +157,30 @@ self.addEventListener('sync', event => {
   if (event.tag === 'content-sync') {
     event.waitUntil(syncContent());
   }
+  if (event.tag === 'content-sync-manual') {
+    event.waitUntil(syncContentManual());
+  }
 });
 
-async function syncContent() {
+function syncContent() {
   try {
     console.log('Synced content called:');
       // Fetch weather data from MetaWeather for London (WOEID: 44418).
       // const response = await fetch('https://www.metaweather.com/api/location/44418/');
       // const data = await response.json();
       console.log('Synced content called done');
+  } catch (error) {
+      console.error('Error syncing weather data:', error);
+  }
+}
+
+function syncContentManual() {
+  try {
+    console.log('Synced content Manual called:');
+      // Fetch weather data from MetaWeather for London (WOEID: 44418).
+      // const response = await fetch('https://www.metaweather.com/api/location/44418/');
+      // const data = await response.json();
+      console.log('Synced content Manual called done');
   } catch (error) {
       console.error('Error syncing weather data:', error);
   }
