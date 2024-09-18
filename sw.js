@@ -145,7 +145,7 @@ self.addEventListener('message', (ev) => {
   //Extendable Event
 });
 
-self.addEventListener('periodicsync', async (event) => {
+self.addEventListener('periodicsync', (event) => {
   console.log(`Periodic Sync Event is called : ${event}`)
   if (event.tag === 'content-sync') {
       event.waitUntil(syncContent());
