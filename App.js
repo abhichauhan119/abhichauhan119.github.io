@@ -20,10 +20,10 @@ const APP = {
       
         if (status.state === 'granted') {
             try {
-                await registration.periodicSync.register('content-sync', {
-                    minInterval: 1000 // Sync every 10 seconds
+                registration.periodicSync.register('content-sync', {
+                    minInterval: 1000*5 // Sync every 10 seconds
                 });
-                console.log('Periodic Sync registered to run every 1 seconds');
+                console.log('Periodic Sync registered to run every 5 seconds');
             } catch (error) {
                 console.error('Periodic Sync registration failed:', error);
             }
@@ -55,20 +55,6 @@ document.getElementById('request-sync').addEventListener('click', () => {
         console.error('Background Sync registration failed:', error);
       });
     });
-   
-
-  navigator.serviceWorker.ready.then(registration => {
-      registration.periodicSync.register('content-sync', {
-                    minInterval: 1000 // Sync every 10 seconds
-                }).then(() => {
-        console.log('Periodic Sync registered to run every 1 seconds');
-      }).catch(error => {
-        console.error('Background Sync registration failed:', error);
-      });
-    });
-  navigator.serviceWorker.ready.then(registration => {
-    
-  });
   } else {
     console.log('Background Sync is not supported.');
   }
