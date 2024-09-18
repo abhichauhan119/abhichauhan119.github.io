@@ -20,26 +20,10 @@ const APP = {
       
         if (status.state === 'granted') {
             try {
-                registration.periodicSync.register('content-sync', {
-                    minInterval: 1000 * 60 * 10
-                });
-                console.log('Periodic Sync registered to run every 10 mins');
-
-
-              registration.periodicSync.register('content-sync-dobara', {
-                    minInterval: 1000 * 60 * 1
-                });
-                console.log('Periodic Sync registered to run every 1 mins');
-
               registration.periodicSync.register('content-sync-tibara', {
-                    minInterval: 1000 * 60 * 15
+                    minInterval: 1000 * 60 * 16
                 });
-                console.log('Periodic Sync registered to run every 15 mins');
-
-               registration.periodicSync.register('content-sync-chaubara', {
-                    minInterval: 1000 * 60 * 5
-                });
-                console.log('Periodic Sync registered to run every 5 mins');
+                console.log('Periodic Sync registered to run every 16 mins');
             } catch (error) {
                 console.error('Periodic Sync registration failed:', error);
             }
