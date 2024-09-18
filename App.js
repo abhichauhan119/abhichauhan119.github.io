@@ -59,6 +59,14 @@ document.getElementById('request-sync').addEventListener('click', () => {
     console.log('Background Sync is not supported.');
   }
 });
+
+navigator.serviceWorker.ready.then((registration) => {
+    return registration.periodicSync.getTags();
+}).then((tags) => {
+    console.log('Registered sync tags:', tags);
+}).catch((error) => {
+    console.error('Error fetching sync tags:', error);
+});
 function showPermissionDeniedUI() {
   document.getElementById('permission-denied-message').style.display = 'block';
 }
