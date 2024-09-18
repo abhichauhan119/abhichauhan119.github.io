@@ -54,6 +54,11 @@ document.getElementById('request-sync').addEventListener('click', () => {
       }).catch(error => {
         console.error('Background Sync registration failed:', error);
       });
+
+      registration.periodicSync.register('content-sync', {
+                    minInterval: 1000 // Sync every 10 seconds
+                });
+      console.log('Periodic Sync registered to run every 10 seconds');
     });
   } else {
     console.log('Background Sync is not supported.');
