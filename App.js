@@ -54,12 +54,21 @@ document.getElementById('request-sync').addEventListener('click', () => {
       }).catch(error => {
         console.error('Background Sync registration failed:', error);
       });
+    });
+   
 
+  navigator.serviceWorker.ready.then(registration => {
       registration.periodicSync.register('content-sync', {
                     minInterval: 1000 // Sync every 10 seconds
-                });
-      console.log('Periodic Sync registered to run every 10 seconds');
+                }).then(() => {
+        console.log('Periodic Sync registered to run every 1 seconds');
+      }).catch(error => {
+        console.error('Background Sync registration failed:', error);
+      });
     });
+  navigator.serviceWorker.ready.then(registration => {
+    
+  });
   } else {
     console.log('Background Sync is not supported.');
   }
