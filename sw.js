@@ -159,7 +159,7 @@ self.addEventListener('sync', event => {
   }
 });
 
-async function syncWeatherData() {
+async function syncContent() {
   try {
       // Fetch weather data from MetaWeather for London (WOEID: 44418).
       const response = await fetch('https://www.metaweather.com/api/location/44418/');
