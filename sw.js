@@ -151,6 +151,18 @@ self.addEventListener('periodicsync', (event) => {
     console.log('content sync tag is found and inside');
     event.waitUntil(syncContent());
   }
+  if (event.tag === 'content-sync-dobara') {
+    console.log('content sync dobara tag is found and inside');
+    event.waitUntil(syncContent());
+  }
+  if (event.tag === 'content-sync-tibara') {
+    console.log('content sync tibara tag is found and inside');
+    event.waitUntil(syncContent());
+  }
+  if (event.tag === 'content-sync-chaubara') {
+    console.log('content sync chaubara tag is found and inside');
+    event.waitUntil(syncContent());
+  }
 });
 
 self.addEventListener('sync', event => {
