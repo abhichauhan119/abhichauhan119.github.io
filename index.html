@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodic Sync Demo</title>
+</head>
+<body>
+    <h1>Periodic Sync Demo</h1>
+    <p>This demo showcases the use of Periodic Sync in Service Workers.</p>
+    <script src="App.js"></script>
+    <script src="bundle.js"></script>
+    <div id="permission-denied-message" style="display:none;">
+      <p>
+          Permission to run background sync is denied. To use this feature, please enable it in your browser settings.
+      </p>
+      <button onclick="handleManualPermission()">How to enable?</button>
+  </div>
+  
+  <div id="permission-prompt-message" style="display:none;">
+      <p>
+          To allow the app to sync in the background, please grant the permission when prompted.
+      </p>
+  </div>
+</body>
+</html>
+
+
+
+
