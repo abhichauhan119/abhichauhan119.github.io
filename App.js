@@ -23,7 +23,7 @@ const APP = {
                 await registration.periodicSync.register('content-sync', {
                     minInterval: 1000 // Sync every 10 seconds
                 });
-                console.log('Periodic Sync registered to run every 10 seconds');
+                console.log('Periodic Sync registered to run every 1 seconds');
             } catch (error) {
                 console.error('Periodic Sync registration failed:', error);
             }
