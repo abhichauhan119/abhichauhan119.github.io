@@ -75,9 +75,9 @@ const APP = {
     //   }).catch((error) => {
     //       console.error('Service Worker registration failed:', error);
     //   });
-    } else {
-        console.log('Periodic Sync not supported');
-    }
+    // } else {
+    //     console.log('Periodic Sync not supported');
+    // }
   }
 };
 
