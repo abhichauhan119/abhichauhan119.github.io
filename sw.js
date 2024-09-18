@@ -152,6 +152,13 @@ self.addEventListener('periodicsync', async (event) => {
   }
 });
 
+self.addEventListener('sync', event => {
+  console.log(`Sync Event is called : ${event}`)
+  if (event.tag === 'content-sync') {
+    event.waitUntil(syncContent());
+  }
+});
+
 async function syncWeatherData() {
   try {
       // Fetch weather data from MetaWeather for London (WOEID: 44418).
