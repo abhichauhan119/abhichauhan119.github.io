@@ -148,13 +148,15 @@ self.addEventListener('message', (ev) => {
 self.addEventListener('periodicsync', (event) => {
   console.log(`Periodic Sync Event is called : ${event}`)
   if (event.tag === 'content-sync') {
-      event.waitUntil(syncContent());
+    console.log('content sync tag is found and inside');
+    event.waitUntil(syncContent());
   }
 });
 
 self.addEventListener('sync', event => {
   console.log(`Sync Event is called : ${event}`)
   if (event.tag === 'content-sync-manual') {
+    console.log('content-sync-manual tag is found and inside');
     event.waitUntil(syncContentManual());
   }
 });
