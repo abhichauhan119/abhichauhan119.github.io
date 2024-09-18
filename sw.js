@@ -161,10 +161,11 @@ self.addEventListener('sync', event => {
 
 async function syncContent() {
   try {
+    console.log('Synced content called:');
       // Fetch weather data from MetaWeather for London (WOEID: 44418).
-      const response = await fetch('https://www.metaweather.com/api/location/44418/');
-      const data = await response.json();
-      console.log('Synced weather data:', data);
+      // const response = await fetch('https://www.metaweather.com/api/location/44418/');
+      // const data = await response.json();
+      console.log('Synced content called done');
   } catch (error) {
       console.error('Error syncing weather data:', error);
   }
