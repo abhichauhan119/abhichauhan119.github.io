@@ -154,9 +154,6 @@ self.addEventListener('periodicsync', (event) => {
 
 self.addEventListener('sync', event => {
   console.log(`Sync Event is called : ${event}`)
-  if (event.tag === 'content-sync') {
-    event.waitUntil(syncContent());
-  }
   if (event.tag === 'content-sync-manual') {
     event.waitUntil(syncContentManual());
   }
