@@ -46,7 +46,19 @@ const APP = {
 };
 
 document.addEventListener('DOMContentLoaded', APP.init);
-
+document.getElementById('request-sync').addEventListener('click', () => {
+  if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    navigator.serviceWorker.ready.then(registration => {
+      registration.sync.register('my-first-sync').then(() => {
+        console.log('Background Sync registered successfully.');
+      }).catch(error => {
+        console.error('Background Sync registration failed:', error);
+      });
+    });
+  } else {
+    console.log('Background Sync is not supported.');
+  }
+});
 function showPermissionDeniedUI() {
   document.getElementById('permission-denied-message').style.display = 'block';
 }
