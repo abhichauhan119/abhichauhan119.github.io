@@ -55,8 +55,8 @@ function syncContent() {
       console.log('Synced content called:');
       const apiURL = 'https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&hourly=temperature_2m';
       try {
-          const response = await fetch(apiURL);
-          const data = await response.json();
+          const response = fetch(apiURL);
+          const data = response.json();
           
           // Extract the hourly data
           const times = data.hourly.time;
