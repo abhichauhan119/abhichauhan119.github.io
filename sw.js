@@ -63,9 +63,6 @@ async function syncContent() {
                         }
                         return response.json(); // Parse the response as JSON
                       })
-                      .then(data => {
-                        console.log(data); // Handle the parsed JSON data
-                      })
                       .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
                       });
