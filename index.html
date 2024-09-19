@@ -2,16 +2,40 @@
 <html lang="en">
   <head>
     <link rel="manifest" href="/manifest.json">
+    <script src="App.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Periodic Sync Demo</title>
+    <style>
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <h1>Periodic Sync Demo</h1>
     <p>This demo showcases the use of Periodic Sync in Service Workers.</p>
-    <button id="request-sync">Request Background Sync</button>
-
-    <script src="App.js"></script>
+    <br>
+    <p>This will fetch Weather data of London and periodically update the same.</p>
+    <button id="request-sync">Request OnDemand Background Sync</button>
+    <br>
+    <table id="weather-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Temperature (°C)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
     <div id="permission-denied-message" style="display:none;">
       <p>
           Permission to run background sync is denied. To use this feature, please enable it in your browser settings.
