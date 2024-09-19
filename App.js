@@ -20,27 +20,21 @@ const APP = {
   registerPeriodicSync() {
         const registration = navigator.serviceWorker.ready;
         // Check if periodicSync is supported
-        if ('periodicSync' in registration) {
-          // Request permission
-          const status = navigator.permissions.query({
+        const status = navigator.permissions.query({
             name: 'periodic-background-sync',
           });
-
-          if (status.state === 'granted') {
-            try {
-              // Register new sync every 20 mins
-               registration.periodicSync.register('content-sync', {
-                minInterval: 20 *60* 1000, // 20 mins
-              });
-              console.log('Periodic background sync registered!');
-            } catch(e) {
-              console.error(`Periodic background sync failed:\nx${e}`);
-            }
-          } else {
-            console.info('Periodic background sync is not granted.');
+        if (status.state === 'granted') {
+          try {
+            // Register new sync every 20 mins
+             registration.periodicSync.register('content-sync', {
+              minInterval: 20 *60* 1000, // 20 mins
+            });
+            console.log('Periodic background sync registered!');
+          } catch(e) {
+            console.error(`Periodic background sync failed:\nx${e}`);
           }
         } else {
-          console.log('Periodic background sync is not supported.');
+          console.info('Periodic background sync is not granted.');
         }
       }, 
   getRegisteredPeriodicEvent(){
