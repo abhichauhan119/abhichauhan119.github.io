@@ -1,11 +1,11 @@
 {
-  "name": "My PWA",
+  "name": "Demo Periodic Sync Event",
   "short_name": "PWA",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
-  "description": "My awesome PWA site.",
+  "description": "Demo Periodic Sync Event",
   "icons": [
     {
       "src": "https://img.icons8.com/fluency/192/000000/android-os.png",
