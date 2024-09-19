@@ -29,7 +29,7 @@ const APP = {
           if (status.state === 'granted') {
             try {
               // Register new sync every 20 mins
-              await registration.periodicSync.register('content-sync-tibara', {
+              await registration.periodicSync.register('content-sync', {
                 minInterval: 20 *60* 1000, // 20 mins
               });
               console.log('Periodic background sync registered!');
