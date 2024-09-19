@@ -43,14 +43,6 @@ const saveSubscription = async subscription => {
 
 self.addEventListener('install', async (ev) => {
   console.log(`Version ${version} installed`);
-  const applicationServerKey = urlB64ToUint8Array(
-    "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
-  );
-  const options = { applicationServerKey, userVisibleOnly: true };
-  const subscription = self.registration.pushManager.subscribe(options);
-  console.log(`Subscription ${subscription} created`);
-  const response = await saveSubscription(subscription);
-  console.log(response);
 });
 
 self.addEventListener('activate', (ev) => {
