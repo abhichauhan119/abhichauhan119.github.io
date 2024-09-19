@@ -84,7 +84,6 @@ function syncContent() {
       } catch (error) {
           console.error('Error fetching weather data:', error);
       }
-    }
     console.log('Synced content called done');
   } catch (error) {
       console.error('Error syncing weather data:', error);
