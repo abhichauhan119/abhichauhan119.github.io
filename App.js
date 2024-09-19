@@ -22,14 +22,14 @@ const APP = {
         // Check if periodicSync is supported
         if ('periodicSync' in registration) {
           // Request permission
-          const status = await navigator.permissions.query({
+          const status = navigator.permissions.query({
             name: 'periodic-background-sync',
           });
 
           if (status.state === 'granted') {
             try {
               // Register new sync every 20 mins
-              await registration.periodicSync.register('content-sync', {
+               registration.periodicSync.register('content-sync', {
                 minInterval: 20 *60* 1000, // 20 mins
               });
               console.log('Periodic background sync registered!');
