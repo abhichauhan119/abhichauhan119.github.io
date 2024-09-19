@@ -4,10 +4,20 @@ const APP = {
     //called after DOMContentLoaded
     //register our service worker
     APP.registerSW();
-    // document.querySelector('h2').addEventListener('click', APP.addImage);
+    // Register Background Sync
+    APP.registerPeriodicSync();
+    // Get Registered Periodic event
+    APP.getRegisteredPeriodicEvent();
   },
   registerSW() {
-    async function registerPeriodicSync() {
+      if('serviceWorker' in navigator) {
+        // Register the service worker
+        navigator.serviceWorker.register('/sw.js', {
+          scope: '/'
+        });
+      }
+  },
+  registerPeriodicSync() {
         const registration = await navigator.serviceWorker.ready;
         // Check if periodicSync is supported
         if ('periodicSync' in registration) {
@@ -32,52 +42,15 @@ const APP = {
         } else {
           console.log('Periodic background sync is not supported.');
         }
-      }
-
-      if('serviceWorker' in navigator) {
-        // Register the service worker
-        navigator.serviceWorker.register('/sw.js', {
-          scope: '/'
-        });
-
-        // Register the periodic background sync
-        registerPeriodicSync();
-      }
-    // if ('serviceWorker' in navigator && 'PeriodicSyncManager' in window) {
-    //   console.log("Inside Register Service Worker")
-    //   navigator.serviceWorker.register('/sw.js').then(async (registration) => {
-    //     console.log("Inside Register Service Worker found sw.js")
-    //     APP.SW =
-    //     registration.installing ||
-    //     registration.waiting ||
-    //     registration.active;
-    //     const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
-    //     console.log(`Inside Register Service Worker found sw.js status is ${status.state}`)
-      
-    //     if (status.state === 'granted') {
-    //         try {
-    //           registration.periodicSync.register('content-sync-tibara', {
-    //                 minInterval: 1000 * 60 * 16
-    //             });
-    //             console.log('Periodic Sync registered to run every 16 mins');
-    //         } catch (error) {
-    //             console.error('Periodic Sync registration failed:', error);
-    //         }
-    //     } else if (status.state === 'prompt') {
-    //       console.log('Periodic background sync permission needs to be prompted');
-    //       // You may guide users here to manually enable permissions if possible.
-    //       showPermissionPromptUI();
-    //   }else if (status.state === 'denied') {
-    //       console.log('Periodic background sync permission denied');
-    //       // Show the UI to inform the user and prompt them to take action.
-    //       showPermissionDeniedUI();
-    //     }
-    //   }).catch((error) => {
-    //       console.error('Service Worker registration failed:', error);
-    //   });
-    // } else {
-    //     console.log('Periodic Sync not supported');
-    // }
+      }, 
+  getRegisteredPeriodicEvent(){
+      navigator.serviceWorker.ready.then((registration) => {
+          return registration.periodicSync.getTags();
+      }).then((tags) => {
+          console.log('Registered sync tags:', tags);
+      }).catch((error) => {
+          console.error('Error fetching sync tags:', error);
+      });
   }
 };
 
@@ -95,22 +68,3 @@ document.getElementById('request-sync').addEventListener('click', () => {
     console.log('Background Sync is not supported.');
   }
 });
-
-navigator.serviceWorker.ready.then((registration) => {
-    return registration.periodicSync.getTags();
-}).then((tags) => {
-    console.log('Registered sync tags:', tags);
-}).catch((error) => {
-    console.error('Error fetching sync tags:', error);
-});
-function showPermissionDeniedUI() {
-  document.getElementById('permission-denied-message').style.display = 'block';
-}
-
-function showPermissionPromptUI() {
-  document.getElementById('permission-prompt-message').style.display = 'block';
-}
-
-function handleManualPermission() {
-  alert('To enable background sync permission, go to the browser settings -> Site settings -> Permissions -> Background sync, and allow it for this site.');
-}
