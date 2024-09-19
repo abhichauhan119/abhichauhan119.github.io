@@ -19,148 +19,25 @@ let imageAssets = [
 ];
 
 self.addEventListener('install', (ev) => {
-  // service worker has been installed.
-  //Extendable Event
   console.log(`Version ${version} installed`);
-  // build a cache
-  // ev.waitUntil(
-  //   caches
-  //     .open(staticName)
-  //     .then((cache) => {
-  //       cache.addAll(assets).then(
-  //         () => {
-  //           //addAll == fetch() + put()
-  //           console.log(`${staticName} has been updated.`);
-  //         },
-  //         (err) => {
-  //           console.warn(`failed to update ${staticName}.`);
-  //         }
-  //       );
-  //     })
-  //     .then(() => {
-  //       caches.open(imageName).then((cache) => {
-  //         cache.addAll(imageAssets).then(
-  //           () => {
-  //             console.log(`${imageName} has been updated.`);
-  //           },
-  //           (err) => {
-  //             console.warn(`failed to update ${staticName}.`);
-  //           }
-  //         );
-  //       });
-  //     })
-  // );
 });
 
 self.addEventListener('activate', (ev) => {
-  // when the service worker has been activated to replace an old one.
-  //Extendable Event
   console.log('activated');
-  // delete old versions of caches.
-  // ev.waitUntil(
-  //   caches.keys().then((keys) => {
-  //     return Promise.all(
-  //       keys
-  //         .filter((key) => {
-  //           if (key != staticName && key != imageName) {
-  //             return true;
-  //           }
-  //         })
-  //         .map((key) => caches.delete(key))
-  //     ).then((empties) => {
-  //       //empties is an Array of boolean values.
-  //       //one for each cache deleted
-  //     });
-  //   })
-  // );
 });
 
 self.addEventListener('fetch', (ev) => {
-  // ev.request each time the webpage asks for any resource.
-  //Extendable Event
   console.log(`fetch request for: ${ev.request.url}`);
-  /*                  */
-  // version 1 - pass thru
-  // ev.respondWith(fetch(ev.request));
-  /*                  */
-  // version 2 - check the caches first for the file. If missing do a fetch
-  // ev.respondWith(
-  //   caches.match(ev.request).then((cacheRes) => {
-  //     if (cacheRes == undefined) {
-  //       console.log(`MISSING ${ev.request.url}`);
-  //     }
-  //     return cacheRes || fetch(ev.request);
-  //   })
-  // );
-  /*                  */
-  //version 3 - check cache. fetch if missing. then add response to cache
-  // ev.respondWith(
-  //   caches.match(ev.request).then((cacheRes) => {
-  //     return (
-  //       cacheRes ||
-  //       fetch(ev.request).then((fetchResponse) => {
-  //         let type = fetchResponse.headers.get('content-type');
-  //         if (
-  //           (type && type.match(/^text\/css/i)) ||
-  //           ev.request.url.match(/fonts.googleapis.com/i)
-  //         ) {
-  //           //css to save in dynamic cache
-  //           console.log(`save a CSS file ${ev.request.url}`);
-  //           return caches.open(dynamicName).then((cache) => {
-  //             cache.put(ev.request, fetchResponse.clone());
-  //             return fetchResponse;
-  //           });
-  //         } else if (
-  //           (type && type.match(/^font\//i)) ||
-  //           ev.request.url.match(/fonts.gstatic.com/i)
-  //         ) {
-  //           console.log(`save a FONT file ${ev.request.url}`);
-  //           return caches.open(fontName).then((cache) => {
-  //             cache.put(ev.request, fetchResponse.clone());
-  //             return fetchResponse;
-  //           });
-  //         } else if (type && type.match(/^image\//i)) {
-  //           //save in image cache
-  //           console.log(`save an IMAGE file ${ev.request.url}`);
-  //           return caches.open(imageName).then((cache) => {
-  //             cache.put(ev.request, fetchResponse.clone());
-  //             return fetchResponse;
-  //           });
-  //         } else {
-  //           //save in dynamic cache
-  //           console.log(`OTHER save ${ev.request.url}`);
-  //           return caches.open(dynamicName).then((cache) => {
-  //             cache.put(ev.request, fetchResponse.clone());
-  //             return fetchResponse;
-  //           });
-  //         }
-  //       })
-  //     );
-  //   })
-  // );
 });
 
 self.addEventListener('message', (ev) => {
-  //message from web page ev.data.
-  //Extendable Event
+  console.log(`Message event received: ${ev}`);
 });
 
 self.addEventListener('periodicsync', (event) => {
   console.log(`Periodic Sync Event is called : ${event}`)
   if (event.tag === 'content-sync') {
     console.log('content sync tag is found and inside');
-    event.waitUntil(syncContent());
-  }
-  if (event.tag === 'content-sync-dobara') {
-    console.log('content sync dobara tag is found and inside');
-    event.waitUntil(syncContent());
-  }
-  if (event.tag === 'content-sync-tibara') {
-    console.log('content sync tibara tag is found and inside');
-    event.waitUntil(syncContent());
-  }
-  if (event.tag === 'content-sync-chaubara') {
-    console.log('content sync chaubara tag is found and inside');
     event.waitUntil(syncContent());
   }
 });
@@ -175,24 +52,47 @@ self.addEventListener('sync', event => {
 
 function syncContent() {
   try {
-    console.log('Synced content called:');
-      // Fetch weather data from MetaWeather for London (WOEID: 44418).
-      // const response = await fetch('https://www.metaweather.com/api/location/44418/');
-      // const data = await response.json();
-      console.log('Synced content called done');
+      console.log('Synced content called:');
+      const apiURL = 'https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&hourly=temperature_2m';
+      try {
+          const response = await fetch(apiURL);
+          const data = await response.json();
+          
+          // Extract the hourly data
+          const times = data.hourly.time;
+          const temperatures = data.hourly.temperature_2m;
+          
+          // Get the table body element
+          const tableBody = document.querySelector('#weather-table tbody');
+          
+          // Populate the table with the data
+          times.forEach((time, index) => {
+              const row = document.createElement('tr');
+              const timeCell = document.createElement('td');
+              const tempCell = document.createElement('td');
+              
+              // Format time for readability
+              const formattedTime = new Date(time).toLocaleString();
+  
+              timeCell.textContent = formattedTime;
+              tempCell.textContent = temperatures[index] + '°C';
+              
+              row.appendChild(timeCell);
+              row.appendChild(tempCell);
+              tableBody.appendChild(row);
+            });
+      } catch (error) {
+          console.error('Error fetching weather data:', error);
+      }
+    }
+    console.log('Synced content called done');
   } catch (error) {
       console.error('Error syncing weather data:', error);
   }
 }
 
 function syncContentManual() {
-  try {
-    console.log('Synced content Manual called:');
-      // Fetch weather data from MetaWeather for London (WOEID: 44418).
-      // const response = await fetch('https://www.metaweather.com/api/location/44418/');
-      // const data = await response.json();
-      console.log('Synced content Manual called done');
-  } catch (error) {
-      console.error('Error syncing weather data:', error);
-  }
+  console.log('Synced content Manual called:');
+  syncContent();
+  console.log('Synced content Manual Done:');
 }
