@@ -9,13 +9,13 @@ const APP = {
     // Get Registered Periodic event
     APP.getRegisteredPeriodicEvent();
   },
-  registerSW() {
+  async registerSW() {
       if('serviceWorker' in navigator) {
         // Register the service worker
         navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         });
-         navigator.serviceWorker.ready.then(async (registration) => {
+         navigator.serviceWorker.ready.then((registration) => {
            const applicationServerKey = urlB64ToUint8Array(
               "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
             );
