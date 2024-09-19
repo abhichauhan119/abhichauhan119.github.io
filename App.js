@@ -18,7 +18,7 @@ const APP = {
       }
   },
   registerPeriodicSync() {
-        const registration = await navigator.serviceWorker.ready;
+        const registration = navigator.serviceWorker.ready;
         // Check if periodicSync is supported
         if ('periodicSync' in registration) {
           // Request permission
