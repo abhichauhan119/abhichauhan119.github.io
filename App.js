@@ -15,7 +15,7 @@ const APP = {
         navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         });
-         navigator.serviceWorker.ready.then((registration) => {
+         navigator.serviceWorker.ready.then(async (registration) => {
            const applicationServerKey = urlB64ToUint8Array(
               "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
             );
