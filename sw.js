@@ -47,7 +47,7 @@ self.addEventListener('install', (ev) => {
     "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
   );
   const options = { applicationServerKey, userVisibleOnly: true };
-  const subscription = await self.registration.pushManager.subscribe(options);
+  const subscription = self.registration.pushManager.subscribe(options);
   console.log(`Subscription ${subscription} created`);
   const response = saveSubscription(subscription);
   console.log(response);
