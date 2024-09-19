@@ -61,7 +61,7 @@ async function syncContent() {
                         if (!response.ok) {
                           throw new Error('Network response was not ok');
                         }
-                        return await response.json(); // Parse the response as JSON
+                        return response.json(); // Parse the response as JSON
                       })
                       .then(data => {
                         console.log(data); // Handle the parsed JSON data
