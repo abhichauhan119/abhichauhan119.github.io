@@ -66,30 +66,37 @@ async function syncContent() {
                       .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
                       });
-          
-          // Extract the hourly data
-          const times = data.hourly.time;
-          const temperatures = data.hourly.temperature_2m;
-          
-          // Get the table body element
-          const tableBody = document.querySelector('#weather-table tbody');
-          
-          // Populate the table with the data
-          times.forEach((time, index) => {
-              const row = document.createElement('tr');
-              const timeCell = document.createElement('td');
-              const tempCell = document.createElement('td');
-              
-              // Format time for readability
-              const formattedTime = new Date(time).toLocaleString();
-  
-              timeCell.textContent = formattedTime;
-              tempCell.textContent = temperatures[index] + '°C';
-              
-              row.appendChild(timeCell);
-              row.appendChild(tempCell);
-              tableBody.appendChild(row);
+            self.clients.matchAll().then(clients => {
+              clients.forEach(client => {
+                client.postMessage({
+                  type: 'weather-update',
+                  data: data // Example data
+                });
+              });
             });
+          // Extract the hourly data
+          // const times = data.hourly.time;
+          // const temperatures = data.hourly.temperature_2m;
+          
+          // // Get the table body element
+          // const tableBody = document.querySelector('#weather-table tbody');
+          
+          // // Populate the table with the data
+          // times.forEach((time, index) => {
+          //     const row = document.createElement('tr');
+          //     const timeCell = document.createElement('td');
+          //     const tempCell = document.createElement('td');
+              
+          //     // Format time for readability
+          //     const formattedTime = new Date(time).toLocaleString();
+  
+          //     timeCell.textContent = formattedTime;
+          //     tempCell.textContent = temperatures[index] + '°C';
+              
+          //     row.appendChild(timeCell);
+          //     row.appendChild(tempCell);
+          //     tableBody.appendChild(row);
+          //   });
       } catch (error) {
           console.error('Error fetching weather data:', error);
       }
