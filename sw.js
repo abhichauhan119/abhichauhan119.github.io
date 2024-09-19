@@ -41,7 +41,7 @@ const saveSubscription = async subscription => {
   return response.json();
 };
 
-self.addEventListener('install', (ev) => {
+self.addEventListener('install', async (ev) => {
   console.log(`Version ${version} installed`);
   const applicationServerKey = urlB64ToUint8Array(
     "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
