@@ -50,18 +50,18 @@ self.addEventListener('sync', event => {
   }
 });
 
-function syncContent() {
+async function syncContent() {
   try {
       console.log('Synced content called:');
       const apiURL = 'https://api.open-meteo.com/v1/forecast?latitude=51.51&longitude=-0.13&hourly=temperature_2m';
       try {
           // const response = fetch(apiURL);
-          const data = fetch(apiURL)
+          const data = await fetch(apiURL)
                       .then(response => {
                         if (!response.ok) {
                           throw new Error('Network response was not ok');
                         }
-                        return response.json(); // Parse the response as JSON
+                        return await response.json(); // Parse the response as JSON
                       })
                       .then(data => {
                         console.log(data); // Handle the parsed JSON data
