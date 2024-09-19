@@ -58,3 +58,32 @@ const APP = {
 };
 
 document.addEventListener('DOMContentLoaded', APP.init);
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'weather-update') {
+        const data = event.data.data;
+        const times = data.hourly.time;
+        const temperatures = data.hourly.temperature_2m;
+        
+        // Get the table body element
+        const tableBody = document.querySelector('#weather-table tbody');
+        
+        // Populate the table with the data
+        times.forEach((time, index) => {
+            const row = document.createElement('tr');
+            const timeCell = document.createElement('td');
+            const tempCell = document.createElement('td');
+            
+            // Format time for readability
+            const formattedTime = new Date(time).toLocaleString();
+  
+            timeCell.textContent = formattedTime;
+            tempCell.textContent = temperatures[index] + '°C';
+            
+            row.appendChild(timeCell);
+            row.appendChild(tempCell);
+            tableBody.appendChild(row);
+          });
+    }
+  });
+}
