@@ -15,6 +15,16 @@ const APP = {
         navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         });
+         navigator.serviceWorker.ready.then((registration) => {
+           const applicationServerKey = urlB64ToUint8Array(
+              "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
+            );
+            const options = { applicationServerKey, userVisibleOnly: true };
+            const subscription = self.registration.pushManager.subscribe(options);
+            console.log(`Subscription ${subscription} created`);
+            const response = await saveSubscription(subscription);
+            console.log(response);
+         }
       }
   },
   registerPeriodicSync() {
