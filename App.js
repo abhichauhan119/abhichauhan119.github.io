@@ -20,22 +20,29 @@ const APP = {
   registerPeriodicSync() {
         const registration = navigator.serviceWorker.ready;
         // Check if periodicSync is supported
-        const status = navigator.permissions.query({
-            name: 'periodic-background-sync',
+        navigator.permissions.query({ name: 'periodic-background-sync' })
+          .then(permissionStatus => {
+            console.log('Permission status:', permissionStatus.state);
+            // You can also add logic based on the state value
+            if (permissionStatus.state === 'granted') {
+              try {
+                // Register new sync every 20 mins
+                 registration.periodicSync.register('content-sync', {
+                  minInterval: 20 *60* 1000, // 20 mins
+                });
+                console.log('Periodic background sync registered!');
+              } catch(e) {
+                console.error(`Periodic background sync failed:\nx${e}`);
+              }
+            } else if (permissionStatus.state === 'denied') {
+               console.info('Periodic background sync is not granted.');
+            } else if (permissionStatus.state === 'prompt') {
+               console.info('Periodic background sync is not granted.');
+            }
+          })
+          .catch(error => {
+            console.error('Error querying permissions:', error);
           });
-        if (status.state === 'granted') {
-          try {
-            // Register new sync every 20 mins
-             registration.periodicSync.register('content-sync', {
-              minInterval: 20 *60* 1000, // 20 mins
-            });
-            console.log('Periodic background sync registered!');
-          } catch(e) {
-            console.error(`Periodic background sync failed:\nx${e}`);
-          }
-        } else {
-          console.info('Periodic background sync is not granted.');
-        }
       }, 
   getRegisteredPeriodicEvent(){
       navigator.serviceWorker.ready.then((registration) => {
