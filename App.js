@@ -18,9 +18,8 @@ const APP = {
       }
   },
   registerPeriodicSync() {
-        const registration = navigator.serviceWorker.ready;
-        // Check if periodicSync is supported
-        navigator.permissions.query({ name: 'periodic-background-sync' })
+      navigator.serviceWorker.ready.then((registration) => {
+          navigator.permissions.query({ name: 'periodic-background-sync' })
           .then(permissionStatus => {
             console.log('Permission status:', permissionStatus.state);
             // You can also add logic based on the state value
@@ -43,7 +42,10 @@ const APP = {
           .catch(error => {
             console.error('Error querying permissions:', error);
           });
-      }, 
+      }).catch((error) => {
+          console.error('Error fetching sync tags:', error);
+      });
+  }, 
   getRegisteredPeriodicEvent(){
       navigator.serviceWorker.ready.then((registration) => {
           return registration.periodicSync.getTags();
