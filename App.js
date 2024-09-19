@@ -12,19 +12,25 @@ const APP = {
   async registerSW() {
       if('serviceWorker' in navigator) {
         // Register the service worker
-        navigator.serviceWorker.register('/sw.js', {
-          scope: '/'
-        });
-         navigator.serviceWorker.ready.then((registration) => {
-           const applicationServerKey = urlB64ToUint8Array(
-              "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
-            );
-            const options = { applicationServerKey, userVisibleOnly: true };
-            const subscription = self.registration.pushManager.subscribe(options);
-            console.log(`Subscription ${subscription} created`);
-            const response = await saveSubscription(subscription);
-            console.log(response);
-         }
+         const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        console.log('Service Worker registered successfully with scope: ', registration.scope);
+
+        // Wait until the service worker is ready
+        const swRegistration = await navigator.serviceWorker.ready;
+        
+        const applicationServerKey = urlB64ToUint8Array(
+          "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
+        );
+        
+        const options = { applicationServerKey, userVisibleOnly: true };
+        
+        // Subscribe to push notifications
+        const subscription = await swRegistration.pushManager.subscribe(options);
+        console.log(`Subscription ${subscription} created`);
+        
+        // Save subscription to the server
+        const response = await saveSubscription(subscription);
+        console.log(response);
       }
   },
   registerPeriodicSync() {
